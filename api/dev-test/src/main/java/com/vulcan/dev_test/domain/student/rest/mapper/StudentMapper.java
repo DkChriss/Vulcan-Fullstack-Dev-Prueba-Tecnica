@@ -2,6 +2,7 @@ package com.vulcan.dev_test.domain.student.rest.mapper;
 
 import com.vulcan.dev_test.domain.student.Student;
 import com.vulcan.dev_test.domain.student.rest.request.StudentDto;
+import com.vulcan.dev_test.domain.student.rest.request.StudentStoreDto;
 import com.vulcan.dev_test.domain.student.rest.request.StudentUpdateDto;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
@@ -9,28 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentMapper {
     //STORE
-    public Student toEntity(StudentDto studentDto) {
-        if(studentDto == null) {
+    public Student toEntity(StudentStoreDto studentStoreDto) {
+        if(studentStoreDto == null) {
             return null;
         }
         return Student.builder()
-                .firstName(studentDto.firstName())
-                .lastName(studentDto.lastName())
-                .age(studentDto.age())
-                .gender(studentDto.gender())
-                .build();
-    }
-    //UPDATE
-    public Student toEntity(@Valid StudentUpdateDto studentUpdateDto) {
-        if(studentUpdateDto == null) {
-            return null;
-        }
-        return Student.builder()
-                .id(studentUpdateDto.getId())
-                .firstName(studentUpdateDto.getFirstName())
-                .lastName(studentUpdateDto.getLastName())
-                .age(studentUpdateDto.getAge())
-                .gender(studentUpdateDto.getGender())
+                .firstName(studentStoreDto.firstName())
+                .lastName(studentStoreDto.lastName())
+                .age(studentStoreDto.age())
+                .gender(studentStoreDto.gender())
                 .build();
     }
     //RESPONSE
@@ -45,5 +33,18 @@ public class StudentMapper {
                 student.getAge(),
                 student.getGender()
         );
+    }
+    //UPDATE
+    public Student toEntity(@Valid StudentUpdateDto studentUpdateDto) {
+        if(studentUpdateDto == null) {
+            return null;
+        }
+        return Student.builder()
+                .id(studentUpdateDto.getId())
+                .firstName(studentUpdateDto.getFirstName())
+                .lastName(studentUpdateDto.getLastName())
+                .age(studentUpdateDto.getAge())
+                .gender(studentUpdateDto.getGender())
+                .build();
     }
 }

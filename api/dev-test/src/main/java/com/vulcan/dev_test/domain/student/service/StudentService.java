@@ -24,7 +24,7 @@ public class StudentService {
         return this.studentDao.store(student);
     }
 
-    public Student show(BigInteger id) {
+    public Student show(Long id) {
         return this.studentDao.show(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No existe el alumno que desea obtener"));
     }
@@ -33,7 +33,7 @@ public class StudentService {
         return this.studentDao.update(student);
     }
 
-    public void destroy(BigInteger id) {
+    public void destroy(Long id) {
         Student student = this.studentDao.show(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No existe el alumno que desea eliminar"));
         this.studentDao.destroy(student);

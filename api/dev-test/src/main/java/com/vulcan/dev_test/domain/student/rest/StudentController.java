@@ -3,6 +3,7 @@ package com.vulcan.dev_test.domain.student.rest;
 import com.vulcan.dev_test.domain.student.Student;
 import com.vulcan.dev_test.domain.student.rest.mapper.StudentMapper;
 import com.vulcan.dev_test.domain.student.rest.request.StudentDto;
+import com.vulcan.dev_test.domain.student.rest.request.StudentStoreDto;
 import com.vulcan.dev_test.domain.student.rest.request.StudentUpdateDto;
 import com.vulcan.dev_test.domain.student.service.StudentService;
 import com.vulcan.dev_test.handler.response.GlobalResponseEntity;
@@ -13,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigInteger;
 
 @RestController
 @RequestMapping("api/v1/students")
@@ -27,9 +26,9 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<StudentDto>> store(
-            @RequestBody @Valid StudentDto studentDto
+            @RequestBody @Valid StudentStoreDto studentStoreDto
     ) {
-        Student student = studentMapper.toEntity(studentDto);
+        Student student = studentMapper.toEntity(studentStoreDto);
         StudentDto response = studentMapper.toDto(studentService.store(student));
 
         return GlobalResponseEntity.successResponse(
@@ -41,7 +40,7 @@ public class StudentController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SuccessResponse<StudentDto>> show(@PathVariable("id") BigInteger id) {
+    public ResponseEntity<SuccessResponse<StudentDto>> show(@PathVariable("id") Long id) {
         StudentDto response = studentMapper.toDto(studentService.show(id));
         return GlobalResponseEntity.successResponse(
                 "Se ha obtenido el alumno correctamente",
@@ -51,9 +50,9 @@ public class StudentController {
         );
     }
 
-    @PutMapping("id")
+    @PutMapping("{id}")
     public ResponseEntity<SuccessResponse<StudentDto>> update(
-            @PathVariable("id") BigInteger id,
+            @PathVariable("id") Long id,
             @RequestBody @Valid StudentUpdateDto studentUpdateDto
     ) {
         studentUpdateDto.setId(id);
@@ -68,8 +67,8 @@ public class StudentController {
         );
     }
 
-    @DeleteMapping("id")
-    public ResponseEntity<SuccessResponse<StudentDto>> destroy(@PathVariable("id") BigInteger id) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<SuccessResponse<StudentDto>> destroy(@PathVariable("id") Long id) {
         this.studentService.destroy(id);
         return GlobalResponseEntity.successResponse(
                 "Se ha eliminado el alumno correctamente",
