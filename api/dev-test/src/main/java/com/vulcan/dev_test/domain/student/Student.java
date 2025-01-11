@@ -1,45 +1,49 @@
 package com.vulcan.dev_test.domain.student;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Setter
 @Getter
+@Setter
+@Entity
 @Table(name = "students")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    @Column(name = "id")
+    @Min(1)
+    private Long id;
 
     @NonNull
     @NotEmpty
-    @Column(columnDefinition = "first_name")
+    @NotBlank
+    @Column(name = "first_name")
     private String firstName;
 
     @NonNull
     @NotEmpty
-    @Column(columnDefinition = "last_name")
+    @NotBlank
+    @Column(name = "last_name")
     private String lastName;
 
     @NonNull
-    @NotEmpty
-    @Column(columnDefinition = "age")
+    @Column(name = "age")
     private Integer age;
 
-    @NonNull
-    @NotEmpty
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "gender")
+    @NonNull
+    @Column(name = "gender")
     private Gender gender;
 
     @CreationTimestamp
@@ -49,5 +53,4 @@ public class Student {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
 }
