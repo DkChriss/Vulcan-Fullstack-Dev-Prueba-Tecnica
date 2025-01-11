@@ -1,13 +1,14 @@
 package com.vulcan.dev_test.domain.student.repository;
 
 import com.vulcan.dev_test.domain.student.Student;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 @Repository("student-jpa")
@@ -29,7 +30,7 @@ public class StudentJpaDao implements StudentDao {
 
     @Override
     @Transactional
-    public Optional<Student> show(BigInteger id) {
+    public Optional<Student> show(Long id) {
         return this.studentRepository.findById(id);
     }
 
