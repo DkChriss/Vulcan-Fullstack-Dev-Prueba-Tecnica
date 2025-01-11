@@ -1,8 +1,6 @@
 package com.vulcan.dev_test.domain.student.repository;
 
 import com.vulcan.dev_test.domain.student.Student;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
