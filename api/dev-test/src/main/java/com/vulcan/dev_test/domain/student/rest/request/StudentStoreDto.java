@@ -14,13 +14,8 @@ public record StudentStoreDto(
         @NotBlank(message = "El apellido del alumno es necesario")
         @NotNull(message = "El apelliudo del alumno es necesario")
         String lastName,
-        @NotEmpty(message = "La edad del alumno es necesario")
-        @NotBlank(message = "La edad del alumno es necesario")
         @NotNull(message = "La edad del alumno es necesario")
         Integer age,
-        @NotEmpty(message = "El genero del alumno es necesario")
-        @NotBlank(message = "El genero del alumno es necesario")
-        @NotNull(message = "El genero del alumno es necesario")
         Gender gender
 ) {
 }
