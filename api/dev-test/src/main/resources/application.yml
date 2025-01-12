@@ -10,6 +10,6 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   application:
-    name: ${NAME_APPLICATION}
+    name: ${APP_NAME}
 server:
-  port: ${SERVER_PORT}
+  port: ${APP_PORT}
