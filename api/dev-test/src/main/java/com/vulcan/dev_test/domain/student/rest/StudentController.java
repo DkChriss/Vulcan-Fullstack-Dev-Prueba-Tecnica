@@ -26,7 +26,6 @@ import java.util.List;
 @RequestMapping("api/v1/students")
 @RequiredArgsConstructor
 @Validated
-@EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class StudentController {
 
     private final StudentService studentService;
