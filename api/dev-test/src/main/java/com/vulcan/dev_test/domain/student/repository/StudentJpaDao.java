@@ -1,6 +1,8 @@
 package com.vulcan.dev_test.domain.student.repository;
 
 import com.vulcan.dev_test.domain.student.Student;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,8 +18,18 @@ public class StudentJpaDao implements StudentDao {
     private final StudentRepository studentRepository;
 
     @Override
-    public Page<Student> list(String name, PageRequest pageRequest) {
-        return null;
+    public Integer size() {
+        return this.studentRepository.findAll().size();
+    }
+
+    @Override
+    @Transactional
+    public Page<Student> list(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        if(name == null || name.isEmpty()) {
+            return studentRepository.findAll(pageable);
+        }
+        return studentRepository.findByFirstName(name,pageable);
     }
 
     @Override

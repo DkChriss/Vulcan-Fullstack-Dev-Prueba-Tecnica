@@ -10,19 +10,50 @@ import com.vulcan.dev_test.handler.response.GlobalResponseEntity;
 import com.vulcan.dev_test.handler.response.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/students")
 @RequiredArgsConstructor
 @Validated
+@EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class StudentController {
 
     private final StudentService studentService;
     private final StudentMapper studentMapper;
+
+    @GetMapping
+    public ResponseEntity<SuccessResponse<Page<StudentDto>>> list (
+            @RequestParam(required = false, defaultValue = "", value = "name") String name,
+            @PageableDefault Pageable pageable
+    ) {
+        Integer size = studentService.size();
+       List<StudentDto> studentDtoList = studentService.list(
+               name == null ? "" : name,
+               pageable.getPageNumber(),
+               pageable.getPageSize())
+               .getContent()
+               .stream()
+               .map(studentMapper::toDto)
+               .toList();
+       Page<StudentDto> response = new PageImpl<>(studentDtoList, pageable, size);
+       return GlobalResponseEntity.successResponse(
+               "Se ha obtenido la lista de alumnos correctamente",
+               "1",
+               response,
+               HttpStatus.OK
+       );
+    }
 
     @PostMapping
     public ResponseEntity<SuccessResponse<StudentDto>> store(

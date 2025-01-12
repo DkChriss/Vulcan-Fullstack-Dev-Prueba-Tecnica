@@ -5,10 +5,7 @@ import com.vulcan.dev_test.domain.student.repository.StudentDao;
 import com.vulcan.dev_test.handler.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.math.BigInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +13,12 @@ public class StudentService {
 
     private final StudentDao studentDao;
 
-    public Page<Student> list(String name, PageRequest pageRequest) {
-        return this.studentDao.list(name, pageRequest);
+    public Integer size() {
+        return this.studentDao.size();
+    }
+
+    public Page<Student> list(String name, int page, int size) {
+        return this.studentDao.list(name, page, size);
     }
 
     public Student store(Student student) {
