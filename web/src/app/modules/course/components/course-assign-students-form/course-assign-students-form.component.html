@@ -1,0 +1,19 @@
+<form class="bg-card" [formGroup]="form.formGroup" (ngSubmit)="formSubmit()" novalidate>
+    <h2 mat-dialog-title>Asignar Estudiantes</h2>
+    <mat-dialog-content class="mat-typography">
+        <div class="gt-xs:flex-row flex flex-col">
+            <mat-form-field>
+                <mat-label>Estudiantes:</mat-label>
+                <mat-select formControlName="students" multiple>
+                    @for (student of students; track student) {
+                    <mat-option [value]="student.id">{{student.firstName}} {{student.lastName}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cerrar</button>
+        <button mat-button type="submit" cdkFocusInitial>Guardar</button>
+    </mat-dialog-actions>
+</form>

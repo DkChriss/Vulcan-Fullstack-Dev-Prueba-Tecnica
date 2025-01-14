@@ -1,0 +1,127 @@
+<div class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden">
+    <div
+        class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8">
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">Lista de cursos</div>
+        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
+            <button class="ml-4" mat-flat-button [color]="'primary'" (click)="openCourseFormRegister()">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1">Nuevo Curso</span>
+            </button>
+        </div>
+    </div>
+    <div *ngIf="courseList$ | async as courseList"
+        class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+
+        <table class="w-full text-center table-auto min-w-max">
+            <thead>
+                <tr>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p
+                            class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            Nombre
+                        </p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p
+                            class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            Estado
+                        </p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p
+                            class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            Capacidad
+                        </p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p
+                            class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            Lugares ocupados
+                        </p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p
+                            class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            Estudiantes
+                        </p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p
+                            class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            Acciones
+                        </p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let course of courseList.data.content; let i=index" class="p-4 table-row">
+                    <td class="p-1 border border-blue-gray-50">
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {{course.name}}
+                        </p>
+                    </td>
+                    <td class="p-1 border border-blue-gray-50">
+                        <ng-container *ngIf="course.status; else noCourses">
+                            <span
+                                class="bg-green-100 text-green-500 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                Disponible
+                            </span>
+                        </ng-container>
+                        <ng-template #noCourses>
+                            <span
+                                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                No Disponible
+                            </span>
+                        </ng-template>
+                    </td>
+                    <td class="p-1 border border-blue-gray-50">
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {{course.places}}
+                        </p>
+                    </td>
+                    <td class="p-1 border border-blue-gray-50">
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {{course.occupiedPlaces}}
+                        </p>
+                    </td>
+                    <td class="p-1 border border-blue-gray-50 text-start">
+                        <ng-container *ngIf="course.students && course.students.length > 0; else noCourses">
+                            <ng-container *ngFor="let group of groupStudents(course.students)">
+                                <p
+                                    class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                    {{ group.join(', ') }}
+                                </p>
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #noCourses>
+                            <span
+                                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                Sin alumnos asignados
+                            </span>
+                        </ng-template>
+                    </td>
+                    <td class="p-1 border">
+                        <div class="block text-center">
+                            <button mat-mini-fab class="bg-yellow-300 mr-2" (click)="openCourseEditForm(course)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-mini-fab class="bg-warn-500 ml-2 mr-2"
+                                (click)="openCourseDeleteConfirm(course)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button mat-mini-fab class="bg-primary-500 ml-2" (click)="openAssignStudents(course)"
+                                [disabled]="!course.status">
+                                <mat-icon>school</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <mat-paginator [length]="totalElements" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="onPageChange($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>
