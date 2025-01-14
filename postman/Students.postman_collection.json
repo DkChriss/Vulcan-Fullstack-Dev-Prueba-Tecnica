@@ -1,0 +1,298 @@
+{
+	"info": {
+		"_postman_id": "96748b7b-5aaa-4ed3-8621-f84c6e9977d9",
+		"name": "Students",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26334818",
+		"_collection_link": "https://www.postman.com/grupo2-6530/workspace/vulcan-dev/collection/26334818-96748b7b-5aaa-4ed3-8621-f84c6e9977d9?action=share&source=collection_link&creator=26334818"
+	},
+	"item": [
+		{
+			"name": "list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students?size=1&page=0",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "1"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"firstName\": \"Ines\",\r\n        \"lastName\": \"Castro\",\r\n        \"age\": 25,\r\n        \"gender\": \"Femenino\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students/1",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Andres\",\r\n    \"lastName\": \"Lopez\",\r\n    \"age\": 20,\r\n    \"gender\": \"Masculino\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students/1",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "destroy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students/1",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign-courses",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"courses\" : [1,2,3]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students/1/assign-courses",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students",
+						"1",
+						"assign-courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "home",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students/home",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students",
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-students",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/students/get-students",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"students",
+						"get-students"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
