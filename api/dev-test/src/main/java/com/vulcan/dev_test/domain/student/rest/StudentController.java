@@ -2,9 +2,7 @@ package com.vulcan.dev_test.domain.student.rest;
 
 import com.vulcan.dev_test.domain.student.Student;
 import com.vulcan.dev_test.domain.student.rest.mapper.StudentMapper;
-import com.vulcan.dev_test.domain.student.rest.request.StudentDto;
-import com.vulcan.dev_test.domain.student.rest.request.StudentStoreDto;
-import com.vulcan.dev_test.domain.student.rest.request.StudentUpdateDto;
+import com.vulcan.dev_test.domain.student.rest.request.*;
 import com.vulcan.dev_test.domain.student.service.StudentService;
 import com.vulcan.dev_test.handler.response.GlobalResponseEntity;
 import com.vulcan.dev_test.handler.response.SuccessResponse;
@@ -25,6 +23,7 @@ import java.util.List;
 @RequestMapping("api/v1/students")
 @RequiredArgsConstructor
 @Validated
+@CrossOrigin(origins = "*")
 public class StudentController {
 
     private final StudentService studentService;
@@ -36,7 +35,7 @@ public class StudentController {
             @PageableDefault Pageable pageable
     ) {
         Integer size = studentService.size();
-       List<StudentDto> studentDtoList = studentService.list(
+        List<StudentDto> studentDtoList = studentService.list(
                name == null ? "" : name,
                pageable.getPageNumber(),
                pageable.getPageSize())
@@ -44,13 +43,13 @@ public class StudentController {
                .stream()
                .map(studentMapper::toDto)
                .toList();
-       Page<StudentDto> response = new PageImpl<>(studentDtoList, pageable, size);
-       return GlobalResponseEntity.successResponse(
+        Page<StudentDto> response = new PageImpl<>(studentDtoList, pageable, size);
+        return GlobalResponseEntity.successResponse(
                "Se ha obtenido la lista de alumnos correctamente",
                "1",
                response,
                HttpStatus.OK
-       );
+        );
     }
 
     @PostMapping
@@ -103,6 +102,42 @@ public class StudentController {
                 "Se ha eliminado el alumno correctamente",
                 "1",
                 null,
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping( "{id}/assign-courses")
+    public ResponseEntity<SuccessResponse<StudentDto>> assignCourses(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid StudentCoursesDto courses
+    ){
+        this.studentService.assignCourses(id, courses.getCourses());
+        return GlobalResponseEntity.successResponse(
+                "Se ha asignado los cursos al alumno correctamente",
+                "1",
+                null,
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/home")
+    public ResponseEntity<SuccessResponse<HomeResponse>> home() {
+        HomeResponse response = this.studentService.home();
+        return GlobalResponseEntity.successResponse(
+                "Se ha obtenido los cursos y alumnos correctamente",
+                "1",
+                response,
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/get-students")
+    public ResponseEntity<SuccessResponse<List<StudentList>>> getStudents() {
+        List<StudentList> response = studentService.getStudents().stream().map(studentMapper::toListDto).toList();
+        return GlobalResponseEntity.successResponse(
+                "Se ha obtenido los estudiantes correctamente",
+                "1",
+                response,
                 HttpStatus.OK
         );
     }

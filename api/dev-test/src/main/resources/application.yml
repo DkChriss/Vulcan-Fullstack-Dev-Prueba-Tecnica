@@ -1,9 +1,4 @@
 spring:
-  security:
-    jwt:
-      secret-key: "ABCSECRET123"
-      expiration-time: 159871200
-      issuer: qewqewqeq
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -11,7 +6,7 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   application:

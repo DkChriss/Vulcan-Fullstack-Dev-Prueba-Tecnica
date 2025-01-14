@@ -49,7 +49,7 @@ public class Student {
     @Column(name = "gender")
     private Gender gender;
 
-    @ManyToMany(mappedBy = "students")
+    @ManyToMany(mappedBy = "students", cascade = CascadeType.PERSIST)
     private Set<Course> courses = new HashSet<>();
 
     @CreationTimestamp
