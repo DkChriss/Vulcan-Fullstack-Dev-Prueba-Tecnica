@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "c7c12d99-82e8-458b-98c1-dbc43eb09ff8",
+		"name": "Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26334818",
+		"_collection_link": "https://www.postman.com/grupo2-6530/workspace/vulcan-dev/collection/26334818-c7c12d99-82e8-458b-98c1-dbc43eb09ff8?action=share&source=collection_link&creator=26334818"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Set token as global variable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"jwt_token\", jsonData.token);\r",
+							"    pm.test(\"Token saved successfully\", function () {\r",
+							"        pm.expect(jsonData.token).to.be.a('string');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Christopher Huayhua\",\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{DOMAIN}}:{{PORT}}{{URL}}/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN}}"
+					],
+					"port": "{{PORT}}{{URL}}",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
