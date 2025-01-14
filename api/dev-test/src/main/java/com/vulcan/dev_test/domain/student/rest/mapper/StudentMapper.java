@@ -1,7 +1,9 @@
 package com.vulcan.dev_test.domain.student.rest.mapper;
 
+import com.vulcan.dev_test.domain.course.Course;
 import com.vulcan.dev_test.domain.student.Student;
 import com.vulcan.dev_test.domain.student.rest.request.StudentDto;
+import com.vulcan.dev_test.domain.student.rest.request.StudentList;
 import com.vulcan.dev_test.domain.student.rest.request.StudentStoreDto;
 import com.vulcan.dev_test.domain.student.rest.request.StudentUpdateDto;
 import jakarta.validation.Valid;
@@ -26,12 +28,25 @@ public class StudentMapper {
         if(student == null) {
             return null;
         }
+        if(student.getCourses() == null || student.getCourses().isEmpty()) {
+            return new StudentDto(
+                    student.getId(),
+                    student.getFirstName(),
+                    student.getLastName(),
+                    student.getAge(),
+                    student.getGender(),
+                    null
+            );
+        }
         return new StudentDto(
                 student.getId(),
                 student.getFirstName(),
                 student.getLastName(),
                 student.getAge(),
-                student.getGender()
+                student.getGender(),
+                student.getCourses().stream().map(
+                        Course::getName
+                ).toList()
         );
     }
     //UPDATE
@@ -46,5 +61,16 @@ public class StudentMapper {
                 .age(studentUpdateDto.getAge())
                 .gender(studentUpdateDto.getGender())
                 .build();
+    }
+    //LIST
+    public StudentList toListDto(Student student) {
+        if(student == null) {
+            return null;
+        }
+        return new StudentList(
+                student.getId(),
+                student.getFirstName(),
+                student.getLastName()
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.vulcan.dev_test.domain.course.rest.mapper;
 
 import com.vulcan.dev_test.domain.course.Course;
 import com.vulcan.dev_test.domain.course.rest.request.CourseDto;
+import com.vulcan.dev_test.domain.course.rest.request.CourseList;
 import com.vulcan.dev_test.domain.course.rest.request.CourseStoreDto;
 import com.vulcan.dev_test.domain.course.rest.request.CourseUpdateDto;
 import jakarta.validation.Valid;
@@ -26,12 +27,23 @@ public class CourseMapper {
         if (course == null) {
             return null;
         }
+        if(course.getStudents() == null || course.getStudents().isEmpty()) {
+            return new CourseDto(
+                    course.getId(),
+                    course.getName(),
+                    course.getStatus(),
+                    course.getPlaces(),
+                    course.getOccupiedPlaces(),
+                    null
+            );
+        }
         return new CourseDto(
                 course.getId(),
                 course.getName(),
                 course.getStatus(),
                 course.getPlaces(),
-                course.getOccupiedPlaces()
+                course.getOccupiedPlaces(),
+                course.getStudents().stream().map(student -> student.getFirstName()+" "+student.getLastName()).toList()
         );
     }
     //UPDATE
@@ -46,5 +58,16 @@ public class CourseMapper {
                 .places(courseUpdateDto.getPlaces())
                 .occupiedPlaces(courseUpdateDto.getOccupiedPlaces())
                 .build();
+    }
+    //LIST
+    public CourseList toListDto(Course course) {
+        if (course == null) {
+            return null;
+        }
+        return new CourseList(
+                course.getId(),
+                course.getName(),
+                course.getStatus()
+        );
     }
 }

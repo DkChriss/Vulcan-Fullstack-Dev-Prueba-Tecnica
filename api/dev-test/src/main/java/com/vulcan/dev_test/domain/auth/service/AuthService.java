@@ -6,6 +6,7 @@ import com.vulcan.dev_test.domain.auth.rest.request.AuthStoreRequest;
 import com.vulcan.dev_test.domain.auth.rest.response.AuthResponse;
 import com.vulcan.dev_test.domain.user.User;
 import com.vulcan.dev_test.domain.user.repository.UserRepository;
+import com.vulcan.dev_test.domain.user.rest.request.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,9 +43,15 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("No existe el usuario"));
+        Optional<User> user1 = userRepository.findByUsername(request.getUsername());
         String token = jwtService.getToken(user);
         return AuthResponse.builder()
                 .token(token)
+                .user(new UserDto(
+                        user1.get().getId(),
+                        user1.get().getName(),
+                        user1.get().getUsername()
+                ))
                 .build();
     }
 }

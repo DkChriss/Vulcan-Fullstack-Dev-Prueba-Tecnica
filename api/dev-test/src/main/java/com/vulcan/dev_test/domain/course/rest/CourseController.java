@@ -2,14 +2,15 @@ package com.vulcan.dev_test.domain.course.rest;
 
 import com.vulcan.dev_test.domain.course.Course;
 import com.vulcan.dev_test.domain.course.rest.mapper.CourseMapper;
-import com.vulcan.dev_test.domain.course.rest.request.CourseDto;
-import com.vulcan.dev_test.domain.course.rest.request.CourseStoreDto;
-import com.vulcan.dev_test.domain.course.rest.request.CourseUpdateDto;
+import com.vulcan.dev_test.domain.course.rest.request.*;
 import com.vulcan.dev_test.domain.course.service.CourseService;
+import com.vulcan.dev_test.domain.student.rest.request.StudentCoursesDto;
+import com.vulcan.dev_test.domain.student.rest.request.StudentDto;
 import com.vulcan.dev_test.handler.response.GlobalResponseEntity;
 import com.vulcan.dev_test.handler.response.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ import java.util.List;
 @RequestMapping("api/v1/courses")
 @RequiredArgsConstructor
 @Validated
+@CrossOrigin(origins = "*")
 public class CourseController {
 
     private final CourseService courseService;
@@ -39,7 +41,6 @@ public class CourseController {
             @PageableDefault Pageable pageable
             ) {
         Integer size = this.courseService.size();
-
         List<CourseDto> courseDtoList = this.courseService.list(
                 name == null ? "": name,
                 pageable.getPageNumber(),
@@ -115,5 +116,51 @@ public class CourseController {
         );
     }
 
+    @PostMapping( "{id}/assign-students")
+    public ResponseEntity<SuccessResponse<CourseDto>> assignStudents(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid CourseStudentsDto students
+    ){
+        this.courseService.assignStudents(id, students.getStudents());
+        return GlobalResponseEntity.successResponse(
+                "Se ha asignado los alumnos al curso correctamente",
+                "1",
+                null,
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/general")
+    public ResponseEntity<SuccessResponse<CourseStatisticsResponse>> generalResponse() {
+        CourseStatisticsResponse response = this.courseService.generalResponse();
+        return GlobalResponseEntity.successResponse(
+                "Se ha obtenido la respuesta general correctamente",
+                "1",
+                response,
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/general-array")
+    public ResponseEntity<SuccessResponse<CourseArrayResponse>> getArrayResponse() {
+        CourseArrayResponse response = this.courseService.getArrayResponse();
+        return GlobalResponseEntity.successResponse(
+                "Se ha obtenido la respuesta general correctamente",
+                "1",
+                response,
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/get-courses")
+    public ResponseEntity<SuccessResponse<List<CourseList>>> getCourses() {
+        List<CourseList> list = this.courseService.getCourses().stream().map(courseMapper::toListDto).toList();
+        return GlobalResponseEntity.successResponse(
+                "Se ha obtenido los cursos correctamente",
+                "1",
+                list,
+                HttpStatus.OK
+        );
+    }
 
 }
