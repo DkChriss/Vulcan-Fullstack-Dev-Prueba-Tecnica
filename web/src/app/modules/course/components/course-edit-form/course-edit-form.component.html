@@ -1,0 +1,25 @@
+<form class="bg-card" [formGroup]="form.formGroup" (ngSubmit)="formSubmit()" novalidate>
+    <h2 mat-dialog-title>Registrar nuevo curso</h2>
+    <mat-dialog-content class="mat-typography">
+        <div class="gt-xs:flex-row flex flex-col">
+            <mat-form-field class="gt-xs:pr-3 flex-auto">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="name" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+            </mat-form-field>
+            <mat-form-field class="gt-xs:pl-3 flex-auto">
+                <mat-label>Capacidad</mat-label>
+                <input matInput formControlName="places" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+            </mat-form-field>
+            <div class="gt-xs:pl-3 flex-auto">
+                <mat-label>Estado</mat-label>
+                <p><mat-slide-toggle formControlName="status"></mat-slide-toggle></p>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cerrar</button>
+        <button mat-button type="submit" cdkFocusInitial>Guardar</button>
+    </mat-dialog-actions>
+</form>

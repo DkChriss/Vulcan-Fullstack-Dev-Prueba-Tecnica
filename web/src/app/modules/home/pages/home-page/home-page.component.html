@@ -1,0 +1,104 @@
+<div class="flex min-w-0 flex-auto flex-col">
+    <div class="bg-card">
+        <div class="mx-auto flex w-full max-w-screen-xl flex-col px-6 sm:px-8">
+            <div class="my-8 flex min-w-0 flex-auto flex-col sm:my-12 sm:flex-row sm:items-center">
+                <!-- Avatar and name -->
+                <div class="flex min-w-0 flex-auto items-center">
+                    <div class="ml-4 flex min-w-0 flex-col">
+                        <div
+                            class="truncate text-2xl font-semibold leading-7 tracking-tight md:text-5xl md:leading-snug">
+                            Estadisticas del sistema
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="-mt-px flex-auto border-t pt-4 sm:pt-6">
+        <div class="mx-auto w-full max-w-screen-xl">
+            <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
+                <mat-tab label="Cursos">
+                    <ng-template matTabContent>
+                        <div class="grid w-full min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                            <div class="bg-card flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow">
+                                <div class="flex items-start justify-between">
+                                    <div class="truncate text-lg font-medium leading-6 tracking-tight">
+                                        Cursos Registrados
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex flex-col items-center">
+                                    <div
+                                        class="text-7xl font-bold leading-none tracking-tight text-blue-500 sm:text-8xl">
+                                        {{totalCourses}}
+                                    </div>
+                                    <div class="text-lg font-medium text-blue-600 dark:text-blue-500">
+                                        Total cursos registrados
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-card flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow">
+                                <div class="flex items-start justify-between">
+                                    <div class="truncate text-lg font-medium leading-6 tracking-tight">
+                                        Cursos Completos
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex flex-col items-center">
+                                    <div
+                                        class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl">
+                                        {{totalCompleteCourses}}
+                                    </div>
+                                    <div class="text-lg font-medium text-green-600 dark:text-green-500">
+                                        Total cursos completos
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-card flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow">
+                                <div class="flex items-start justify-between">
+                                    <div class="truncate text-lg font-medium leading-6 tracking-tight">
+                                        Estudiantes registrados
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex flex-col items-center">
+                                    <div
+                                        class="text-7xl font-bold leading-none tracking-tight text-gray-500 sm:text-8xl">
+                                        {{totalStudents}}
+                                    </div>
+                                    <div class="text-lg font-medium text-gray-600 dark:text-gray-500">
+                                        Total estudiantes registrados
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-card flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow sm:col-span-2 md:col-span-4 mt-3">
+                            <div class="flex flex-col items-start justify-between sm:flex-row">
+                                <div class="truncate text-lg font-medium leading-6 tracking-tight">
+                                    Respuesta General
+                                </div>
+                            </div>
+                            <div class="mt-8 w-full">
+                                <div class="text-secondary font-medium">
+                                    Media de generos por curso
+                                </div>
+                                <div echarts [options]="echartsAverageGender" [extentions]="echartsExtentions"
+                                    class="w-full">
+                                </div>
+                                <div class="text-secondary font-medium">
+                                    Media de capacidad de cursos
+                                </div>
+                                <div echarts [options]="echartsCapacity" [extentions]="echartsExtentions"
+                                    class="w-full">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </mat-tab>
+                <mat-tab label="Alumnos">
+                    ALUMNOS GRAFICAS
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+
+</div>
